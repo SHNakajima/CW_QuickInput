@@ -1,5 +1,7 @@
 MIT License
 
+Copyright (c) 2020 Shotaro Nakajima (https://github.com/SHNakajima)
+
 Copyright (c) 2014 Yuki Asano (https://github.com/YukiAsano)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
