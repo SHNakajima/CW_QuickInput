@@ -6,25 +6,20 @@
 	
 	let settings = [];
 
-	let emptySetting = [{
-		text: "",
-		desc: "",
-		html: "",
-		immediately: false
-	}];
-
 	let example = [
 		{
 			text: "集客master(gogo)",
 			desc: "shuukyaku-gogo",
 			html: "(gogo)",
-			immediately: true
+			enableShortcut: false,
+			keyBind: ''
 		},
 		{
 			text: "chocolat master(gogo)",
 			desc: "chocolat-gogo",
 			html: "(chocolat-gogo)",
-			immediately: true
+			enableShortcut: false,
+			keyBind: ''
 		}
 	];
 
@@ -50,8 +45,10 @@
 	function addSetting() {
 		settings.push({
 			text: "",
-			label: "",
-			immediately: false
+			desc: "",
+			html: "",
+			enableShortcut: false,
+			keyBind: ''
 		});
 		settings = settings;
 	};
@@ -81,7 +78,8 @@
 					<th>Text</th>
 					<th>Description</th>
 					<th>HTML</th>
-					<th>Send Immediately</th>
+					<th>Enable Key Shortcut</th>
+					<th>Key Bind</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -91,12 +89,13 @@
 						<td><textarea type="text" bind:value={setting.text}></textarea></td>
 						<td><input type="text" bind:value={setting.desc}></td>
 						<td><textarea type="text" bind:value={setting.html}></textarea></td>
-						<td><Switch bind:checked="{setting.immediately}" bind:id="{setting.desc}"/></td>
+						<td><Switch bind:checked="{setting.enableShortcut}" bind:id="{setting.desc}"/></td>
+						<td><input type="text" bind:value={setting.keyBind} maxlength="1"></td>
 						<td><button class="delete-setting" on:click="{() => deleteSetting(i)}"><i class="fas fa-trash-alt"></i></button></td>
 					</tr>
 				{/each}
 				<tr>
-					<td colspan="5">
+					<td colspan="6">
 						<button class="add-setting" on:click="{addSetting}">
 							<i class="fas fa-plus-circle"></i>
 						</button>
@@ -150,8 +149,12 @@
 		}
 		& th,td {
 			padding: 12px 15px;
-			& textarea,input {
+			& textarea {
 				min-width: 320px;
+				width: 100%;
+			}
+			& input {
+				min-width: 240px;
 				width: 100%;
 			}
 		}
