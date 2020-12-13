@@ -68,18 +68,18 @@
 	<h1>
 		<i class="fas fa-cogs"></i>
 		[SETTING]ChatWork Quick Input
-		<img alt="(gogo)" src="https://assets.chatwork.com/images/emoticon2x/emo_gogo.gif" data-cwtag="GOGO" title="こぶしを掲げる人">
+		<i class="fas fa-cogs"></i>
 	</h1>
 
 	<div class="setting-main">
 		<table class="styled-table shadow">
 			<thead>
 				<tr>
-					<th>Text</th>
-					<th>Description</th>
-					<th>HTML</th>
-					<th>Enable Key Shortcut</th>
-					<th>Key Bind</th>
+					<th>入力するテキスト</th>
+					<th>説明（アイコンホバーで表示される）</th>
+					<th>アイコン部分のHTML</th>
+					<th>キーボードショートカットの有効化</th>
+					<th>キーバインド</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -90,7 +90,7 @@
 						<td><input type="text" bind:value={setting.desc}></td>
 						<td><textarea type="text" bind:value={setting.html}></textarea></td>
 						<td><Switch bind:checked="{setting.enableShortcut}" bind:id="{setting.desc}"/></td>
-						<td><input type="text" bind:value={setting.keyBind} maxlength="1"></td>
+						<td>ctrlキー + <input type="text" bind:value={setting.keyBind} maxlength="1"></td>
 						<td><button class="delete-setting" on:click="{() => deleteSetting(i)}"><i class="fas fa-trash-alt"></i></button></td>
 					</tr>
 				{/each}
@@ -147,14 +147,13 @@
 			color: #ffffff;
 			text-align: center;
 		}
-		& th,td {
+		& th {
+			padding: 12px 15px;
+		}
+		& td {
 			padding: 12px 15px;
 			& textarea {
 				min-width: 320px;
-				width: 100%;
-			}
-			& input {
-				min-width: 240px;
 				width: 100%;
 			}
 		}
@@ -179,6 +178,7 @@
 		line-height: 100%;
 		margin-bottom: 0;
 		cursor: pointer;
+		background: none;
 		&.submit {
 			padding: 12px 24px;
 			background-color: $theme;
@@ -192,7 +192,6 @@
 			color: $theme;
 		}
 		&.delete-setting {
-			background: none;
 			color: $theme;
 			font-size: 32px;
 		}
