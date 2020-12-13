@@ -1,17 +1,119 @@
 <script>
-	export let name;
+	import { onMount } from 'svelte';
+	import Switch from './Switch.svelte';
+	import '@fortawesome/fontawesome-free/js/fontawesome';
+	import '@fortawesome/fontawesome-free/js/solid';
+	
+	let settings = [];
+
+	let emptySetting = [{
+		text: "",
+		label: "",
+		immediately: false
+	}];
+
+	let example = [
+		{
+			text: "集客master(gogo)",
+			label: "shuukyaku-gogo",
+			immediately: true
+		},
+		{
+			text: "chocolat master(gogo)",
+			label: "chocolat-gogo",
+			immediately: true
+		},
+		{
+			text: "確認お願い致します",
+			label: "kakunin",
+			immediately: false
+		}
+	];
+
+	settings = example;
+
+	onMount(async () => {
+		settings = await getSettings();
+	});
+
+	async function save() {
+		let data = settings.filter(i => {return i.text !== '' && i.label !== ''})
+		chrome.storage.sync.set({settings: data}, function() {
+        	alert('saved!');
+		});
+		settings = await getSettings();
+	};
+
+	function deleteSetting(key) {
+		if(!confirm('delete ?'))return;
+		settings = settings.filter((n, i) => {return i !== key});
+	};
+
+	function addSetting() {
+		settings.push({
+			text: "",
+			label: "",
+			immediately: false
+		});
+		settings = settings;
+	};
+
+	async function getSettings() {
+		let p = new Promise(function(resolve, reject){
+			chrome.storage.sync.get('settings',function(items) {
+				resolve(items.settings ? items.settings : []);
+			})
+		});
+		const configOut = await p;
+		return configOut;
+	};
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>
+		<i class="fas fa-cogs"></i>
+		[SETTING]ChatWork Quick Input
+		<img alt="(gogo)" src="https://assets.chatwork.com/images/emoticon2x/emo_gogo.gif" data-cwtag="GOGO" title="こぶしを掲げる人">
+	</h1>
+
+	<div class="setting-main">
+		<table class="styled-table shadow">
+			<thead>
+				<tr>
+					<th>Text</th>
+					<th>Lavel</th>
+					<th>Send Immediately</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each settings as setting, i}
+					<tr>
+						<td><textarea type="text" bind:value={setting.text}></textarea></td>
+						<td><input type="text" bind:value={setting.label}></td>
+						<td><Switch bind:checked="{setting.immediately}" bind:id="{setting.label}"/></td>
+						<td><button class="delete-setting" on:click="{() => deleteSetting(i)}"><i class="fas fa-trash-alt"></i></button></td>
+					</tr>
+				{/each}
+				<tr>
+					<td colspan="4">
+						<button class="add-setting" on:click="{addSetting}">
+							<i class="fas fa-plus-circle"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<button class="submit shadow" on:click="{save}">save</button>
+	</div>
 </main>
 
-<style>
+<style lang="scss">
+
+	$theme: #009879;
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 
@@ -26,5 +128,77 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.setting-main {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.styled-table {
+		border-collapse: collapse;
+		margin: 25px 0;
+		font-size: 0.9em;
+		font-family: sans-serif;
+		min-width: 400px;
+		& thead tr {
+			background-color: $theme;
+			color: #ffffff;
+			text-align: center;
+		}
+		& th,td {
+			padding: 12px 15px;
+			& textarea,input {
+				min-width: 320px;
+				width: 100%;
+			}
+		}
+		& tbody{
+			& tr {
+				border-bottom: 1px solid #dddddd;
+				&:nth-of-type(even) {
+					background-color: #f3f3f3;
+				}
+				&:last-of-type(even) {
+					border-bottom: 2px solid $theme;
+				}
+				&:last-of-type {
+					font-size: 32px;
+				}
+			}
+		}
+	}
+
+	button{
+		border: none;
+		line-height: 100%;
+		margin-bottom: 0;
+		cursor: pointer;
+		&.submit {
+			padding: 12px 24px;
+			background-color: $theme;
+			text-align: center;
+			font-size: large;
+			border-radius: 4px;
+			font-weight: 400;
+			color: white;
+		}
+		&.add-setting {
+			color: $theme;
+		}
+		&.delete-setting {
+			background: none;
+			color: $theme;
+			font-size: 32px;
+		}
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+
+	.shadow {
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	}
 </style>
