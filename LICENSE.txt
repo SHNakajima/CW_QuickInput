@@ -1,6 +1,7 @@
 MIT License
 
 Copyright (c) 2020 Shotaro Nakajima (https://github.com/SHNakajima)
+Canned input text can now be set from "Options".
 
 Copyright (c) 2014 Yuki Asano (https://github.com/YukiAsano)
 
