@@ -8,25 +8,23 @@
 
 	let emptySetting = [{
 		text: "",
-		label: "",
+		desc: "",
+		html: "",
 		immediately: false
 	}];
 
 	let example = [
 		{
 			text: "集客master(gogo)",
-			label: "shuukyaku-gogo",
+			desc: "shuukyaku-gogo",
+			html: "(gogo)",
 			immediately: true
 		},
 		{
 			text: "chocolat master(gogo)",
-			label: "chocolat-gogo",
+			desc: "chocolat-gogo",
+			html: "(chocolat-gogo)",
 			immediately: true
-		},
-		{
-			text: "確認お願い致します",
-			label: "kakunin",
-			immediately: false
 		}
 	];
 
@@ -37,7 +35,7 @@
 	});
 
 	async function save() {
-		let data = settings.filter(i => {return i.text !== '' && i.label !== ''})
+		let data = settings.filter(i => {return i.text !== '' && i.desc !== '' && i.html !== ''})
 		chrome.storage.sync.set({settings: data}, function() {
         	alert('saved!');
 		});
@@ -81,7 +79,8 @@
 			<thead>
 				<tr>
 					<th>Text</th>
-					<th>Lavel</th>
+					<th>Description</th>
+					<th>HTML</th>
 					<th>Send Immediately</th>
 					<th></th>
 				</tr>
@@ -90,13 +89,14 @@
 				{#each settings as setting, i}
 					<tr>
 						<td><textarea type="text" bind:value={setting.text}></textarea></td>
-						<td><input type="text" bind:value={setting.label}></td>
-						<td><Switch bind:checked="{setting.immediately}" bind:id="{setting.label}"/></td>
+						<td><input type="text" bind:value={setting.desc}></td>
+						<td><textarea type="text" bind:value={setting.html}></textarea></td>
+						<td><Switch bind:checked="{setting.immediately}" bind:id="{setting.desc}"/></td>
 						<td><button class="delete-setting" on:click="{() => deleteSetting(i)}"><i class="fas fa-trash-alt"></i></button></td>
 					</tr>
 				{/each}
 				<tr>
-					<td colspan="4">
+					<td colspan="5">
 						<button class="add-setting" on:click="{addSetting}">
 							<i class="fas fa-plus-circle"></i>
 						</button>
