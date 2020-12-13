@@ -1,8 +1,8 @@
 {
     "name": "ChatWork Quick Input",
-    "version": "2.0",
+    "version": "0.1",
     "manifest_version": 2,
-    "description": "ChatWorkに定型文を素早く入力する拡張機能",
+    "description": "ChatWorkのテキスト入力をサポートする拡張機能",
     "permissions": ["storage"],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "icons": {
