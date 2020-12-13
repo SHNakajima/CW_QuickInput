@@ -1,4 +1,4 @@
-# ChatWork Quick Info Input
+# ChatWork Quick Input
 
 ## Description
 
