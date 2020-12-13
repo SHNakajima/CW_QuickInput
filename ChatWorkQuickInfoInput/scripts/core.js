@@ -117,8 +117,21 @@ $(function () {
             });
 
             infoBtn.addEventListener("click", function() {
-                actionFn(setting.text, false, false, true, setting.immediately);
+                actionFn(setting.text, false, false, true);
             }, false);
+
+            //キーバインドを有効化していた場合
+            if (setting.enableShortcut) {
+                document.getElementById("_chatText").addEventListener("keydown", function (e) {
+                    var code = e.which,
+                        keyChar = String.fromCharCode(code).toLowerCase();
+                    if (e.ctrlKey) {
+                        if (keyChar === setting.keyBind) {
+                            actionFn(setting.text, false, false, true);
+                        }
+                    }
+                }, false);
+            }
 
             chatToolbarEl.appendChild(infoBtn);
         });
