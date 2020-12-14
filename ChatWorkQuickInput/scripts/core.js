@@ -1,15 +1,29 @@
 $(function () {
 
+    const fontAwasomeCssLink = '<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">';
+
+    // DOM生成時に監視関数を有効化
     window.addEventListener("load", main, false);
 
+    // DOM生成時にfontawasomw cssの埋め込み
+    window.addEventListener("load", function(){
+        $('head').append(fontAwasomeCssLink);
+    }, [{once:true}]);
+
+    // url変更時に監視関数を有効化
+    $(window).bind('hashchange', main);
+
+    // 監視関数
     function main(e) {
-        const jsInitCheckTimer = setInterval(jsLoaded, 1000);
+        const jsInitCheckTimer = setInterval(jsLoaded, 200);
         function jsLoaded() {
             if ($('_myStatusButton') != null) {
                 setButtons();
+                // なぜか一回出て消えるのでもう一回遅延させてボタン読み込み
+                setTimeout(() => {
+                    setButtons();
+                }, 1000);
                 clearInterval(jsInitCheckTimer);
-            } else {
-                console.log('arrrrr');
             }
         };
     };
