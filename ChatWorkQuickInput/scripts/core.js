@@ -103,6 +103,8 @@ $(function () {
     }
 
     async function setButtons() {
+        console.log($('#_chatSendTool').find('#_infoText').length);
+        if ($('#_chatSendTool').find('#_infoText').length >= 1)return;
 
         var infoBtn,
             chatToolbarEl = document.getElementById("_chatSendTool");
