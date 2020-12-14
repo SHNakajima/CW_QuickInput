@@ -16,7 +16,7 @@
 
 ## Usage
 
-1. 拡張機能をインストール( [インストール方法](http://reviews.f-tools.net/Add-On/Jisaku-Tuika.html) に従って、builded.zipを解凍してできたフォルダを選択し、インストール)
+1. 拡張機能をインストール( [インストール方法](http://reviews.f-tools.net/Add-On/Jisaku-Tuika.html) に従って、[builded.zip](https://github.com/SHNakajima/CW_QuickInput/raw/master/builded.zip)を解凍してできたフォルダを選択し、インストール)
 2. 定型文の設定
 3. enjoy!
    
