@@ -112,12 +112,25 @@ $(function () {
         settings = await getSettings();
         console.log(settings);
 
-        // {{{ infoタグ生成のボタン
+        // infoタグ生成のボタン
         infoBtn = getButtonEl({
             id: "_infoText",
             label: "メッセージに[info][/info]を追加します（Ctrl+i）",
             iconCls: "icoFontInfo"
         });
+
+        // codeタグ生成のボタン
+        codeBtn = getButtonEl({
+            id: "_insertCodeText",
+            label: "メッセージに[code][/code]を追加します",
+            iconCls: "icoFontSetting"
+        });
+
+        codeBtn.addEventListener("click", function() {
+            actionFn("code", false, false);
+        }, false);
+    
+        chatToolbarEl.appendChild(codeBtn);
 
         infoBtn.addEventListener("click", function () {
             actionFn("info", false, false);
