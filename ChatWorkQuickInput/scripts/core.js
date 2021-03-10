@@ -87,7 +87,7 @@ $(function () {
 
         // ボタンによって変える部分
         innerEl.className += args.iconNoLg ? "" : " icoSizeMiddle";
-        innerEl.style = "padding-bottom: 8px;";
+        innerEl.style = "padding-bottom: 2px;margin-right: 8px;";
 
         // スタイルを調整
         for (var property in args.style) {
@@ -103,11 +103,11 @@ $(function () {
     }
 
     async function setButtons() {
-        console.log($('#_chatSendTool').find('#_infoText').length);
-        if ($('#_chatSendTool').find('#_infoText').length >= 1)return;
+        console.log($('#_chatSendArea').find('#_infoText').length);
+        if ($('#_chatSendArea').find('#_infoText').length >= 1)return;
 
         var infoBtn,
-            chatToolbarEl = document.getElementById("_chatSendTool");
+            chatToolbarEl = document.querySelectorAll('#_chatSendArea ul')[0];
 
         settings = await getSettings();
         console.log(settings);
