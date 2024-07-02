@@ -1,10 +1,17 @@
 {
     "name": "ChatWork Quick Input",
-    "version": "0.3",
-    "manifest_version": 2,
+    "version": "0.4",
+    "manifest_version": 3,
     "description": "ChatWorkのテキスト入力をサポートする拡張機能",
     "permissions": ["storage"],
-    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "host_permissions": [
+        "*://*.chatwork.com/*",
+        "*://chatwork.com/*",
+        "*://kcw.kddi.ne.jp/*"
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    },
     "icons": {
         "16" : "images/icon_16.png",
         "48" : "images/icon_48.png",
@@ -16,5 +23,5 @@
         "run_at": "document_end",
         "all_frames": true
     }],
-    "options_page":"pages/public/index.html"
+    "options_page": "pages/public/index.html"
 }
