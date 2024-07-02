@@ -135,6 +135,11 @@ $(function () {
     
         // Create buttons for all settings
         settings.forEach(setting => {
+
+            if (setting.enableShortcut) {
+                setting.desc +=` (Ctrl+${setting.keyBind})`;
+            }
+
             let btn = getButtonEl({
                 id: setting.id,
                 label: setting.desc,
