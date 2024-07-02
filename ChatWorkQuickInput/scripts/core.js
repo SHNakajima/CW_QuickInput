@@ -1,6 +1,6 @@
 $(function () {
 
-    const fontAwasomeCssLink = '<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">';
+    const fontAwasomeCssLink = '<link href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" rel="stylesheet">';
 
     // DOM生成時に監視関数を有効化
     window.addEventListener("load", main, false);
@@ -72,14 +72,16 @@ $(function () {
         el = document.createElement("li");
         el.setAttribute("role", "button");
         el.className = "_showDescription chatInput__emoticon";
+        // width: 32px;text-align: center;
         el.style.display = "inline-block";
+        el.style.width = "28px";
+        el.style.textAlign = "center";
 
         // ボタンによって変える部分
         el.id = args.id;
         el.setAttribute("aria-label", args.label);
 
-        // }}}
-        // {{{ ボタンの中身を生成
+        // ボタンの中身を生成
         innerEl = document.createElement("span");
         innerEl.className = args.iconCls;
         innerEl.style.color = args.color || undefined;
@@ -104,89 +106,74 @@ $(function () {
 
     async function setButtons() {
         console.log($('#_chatSendArea').find('#_infoText').length);
-        if ($('#_chatSendArea').find('#_infoText').length >= 1)return;
-
-        var infoBtn,
-            chatToolbarEl = document.querySelectorAll('#_chatSendArea ul')[0];
-
+        if ($('#_chatSendArea').find('#_infoText').length >= 1) return;
+    
+        var chatToolbarEl = document.querySelectorAll('#_chatSendArea ul')[0];
+    
         settings = await getSettings();
         console.log(settings);
-
-        // infoタグ生成のボタン
-        infoBtn = getButtonEl({
-            id: "_infoText",
-            label: "メッセージに[info][/info]を追加します（Ctrl+i）",
-            iconCls: "icoFontInfo"
-        });
-
-        // codeタグ生成のボタン
-        codeBtn = getButtonEl({
-            id: "_insertCodeText",
-            label: "メッセージに[code][/code]を追加します",
-            iconCls: "icoFontSetting"
-        });
-
-        codeBtn.addEventListener("click", function() {
-            actionFn("code", false, false);
-        }, false);
     
-        chatToolbarEl.appendChild(codeBtn);
-
-        infoBtn.addEventListener("click", function () {
-            actionFn("info", false, false);
-        }, false);
-
-        chatToolbarEl.appendChild(infoBtn);
-
-        // 独自のボタン追加
+        // Add default buttons to settings
+        settings.unshift(
+            {
+                id: "_infoText",
+                desc: "メッセージに[info][/info]を追加します（Ctrl+i）",
+                html: `<i class="fa-solid fa-circle-info"></i>`,
+                text: "info",
+                enableShortcut: true,
+                keyBind: "i"
+            },
+            {
+                id: "_insertCodeText",
+                desc: "メッセージに[code][/code]を追加します（Ctrl+b）",
+                html: `<i class="fa-solid fa-code"></i>`,
+                text: "code",
+                enableShortcut: true,
+                keyBind: "b"
+            }
+        );
+    
+        // Create buttons for all settings
         settings.forEach(setting => {
-            infoBtn = getButtonEl({
+            let btn = getButtonEl({
+                id: setting.id,
                 label: setting.desc,
+                iconCls: setting.iconCls,
                 html: setting.html
             });
-
-            infoBtn.addEventListener("click", function() {
-                actionFn(setting.text, false, false, true);
+    
+            btn.addEventListener("click", function() {
+                actionFn(setting.text, false, false, !setting.id);
             }, false);
-
-            //キーバインドを有効化していた場合
+    
+            // Enable keyboard shortcut if specified
             if (setting.enableShortcut) {
                 document.getElementById("_chatText").addEventListener("keydown", function (e) {
                     var code = e.which,
                         keyChar = String.fromCharCode(code).toLowerCase();
-                    if (e.ctrlKey) {
-                        if (keyChar === setting.keyBind) {
-                            actionFn(setting.text, false, false, true);
-                        }
+                    if (e.ctrlKey && keyChar === setting.keyBind) {
+                        actionFn(setting.text, false, false, !setting.id);
                     }
                 }, false);
             }
-
-            chatToolbarEl.appendChild(infoBtn);
+    
+            chatToolbarEl.appendChild(btn);
         });
-
-        // }}}
-        // {{{ キーボードショートカット
+    
+        // Additional keyboard shortcuts
         document.getElementById("_chatText").addEventListener("keydown", function (e) {
             var code = e.which,
                 keyChar = String.fromCharCode(code).toLowerCase();
             if (e.ctrlKey) {
-                if (keyChar === "i") {
-                    // info追加
-                    actionFn("info", false, false);
-                } else if (keyChar === "t") {
+                if (keyChar === "t") {
                     // titleつきでinfo追加
                     actionFn("info", true, false);
-                } else if (keyChar === "w") {
-                    // code追加
-                    actionFn("code", false, false);
                 } else if (keyChar === "l") {
                     // hr追加
                     actionFn("hr", false, true);
                 }
             }
         }, false);
-
     }
 
     function actionFn(action, bTitle, bNoEnd, onlyInsert) {
