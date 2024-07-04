@@ -1,3 +1,7 @@
+# Chrome web store
+
+https://chromewebstore.google.com/detail/chatwork-quick-input/ijgidfcngbfcicilenkdngepclpkabom
+
 # ChatWork Quick Input
 
 <img src="https://github.com/SHNakajima/CW_QuickInput/blob/master/screenshots/icon_example.png?raw=true" style="width:50%;height:50%">
